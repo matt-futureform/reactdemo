@@ -1,0 +1,11 @@
+{
+  "name": "BrokerageARC",
+  "outputDir": "..",
+  "routing": {
+    "trailingSlash": "never",
+    "fallback": "index.html"
+  },
+  "dev": {
+    "command": "npm run dev"
+  }
+}

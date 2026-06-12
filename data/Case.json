@@ -1,0 +1,31 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Case", "referenceId": "DirectorsLiabilityClaim" },
+      "AccountId": "@GlobalIndustries",
+      "Subject": "Directors & Officers Liability Claim",
+      "Type": "Other",
+      "Status": "Working",
+      "Reserve__c": 2500000,
+      "Description": "D&O liability claim arising from alleged breach of fiduciary duty. Legal proceedings underway. Reserve set at £2.5m pending counsel opinion."
+    },
+    {
+      "attributes": { "type": "Case", "referenceId": "WarehouseFireClaim" },
+      "AccountId": "@AcmeCorp",
+      "Subject": "Warehouse Fire — Edinburgh",
+      "Type": "Other",
+      "Status": "New",
+      "Reserve__c": 450000,
+      "Description": "Fire damage to Edinburgh warehouse unit. Loss adjusters appointed. Interim payment approved. Full reinstatement scope under assessment."
+    },
+    {
+      "attributes": { "type": "Case", "referenceId": "ThirdPartyInjuryClaim" },
+      "AccountId": "@AcmeCorp",
+      "Subject": "Third Party Bodily Injury",
+      "Type": "Other",
+      "Status": "New",
+      "Reserve__c": 125000,
+      "Description": "Third party injury claim involving a visitor on client premises. Liability admitted. Reserve set at £125k covering anticipated settlement and legal costs."
+    }
+  ]
+}

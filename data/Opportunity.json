@@ -1,0 +1,44 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Opportunity", "referenceId": "FinancialLinesRenewal" },
+      "Name": "Financial Lines Renewal 2026",
+      "AccountId": "@GlobalIndustries",
+      "Line_of_Business__c": "Financial Lines",
+      "Amount": 5200000,
+      "StageName": "Negotiation/Review",
+      "CloseDate": "2026-09-30",
+      "Description": "Annual renewal of Directors & Officers, Professional Indemnity and Crime coverages. Strong retention expected with marginal rate improvement."
+    },
+    {
+      "attributes": { "type": "Opportunity", "referenceId": "CasualtyProgramme" },
+      "Name": "Casualty Programme Renewal",
+      "AccountId": "@GlobalIndustries",
+      "Line_of_Business__c": "Casualty",
+      "Amount": 3800000,
+      "StageName": "Proposal/Price Quote",
+      "CloseDate": "2026-10-31",
+      "Description": "Casualty programme covering public liability and employers liability. Underwriter meetings scheduled with three markets."
+    },
+    {
+      "attributes": { "type": "Opportunity", "referenceId": "PropertyPortfolio" },
+      "Name": "Property Portfolio Renewal",
+      "AccountId": "@AcmeCorp",
+      "Line_of_Business__c": "Property",
+      "Amount": 2400000,
+      "StageName": "Needs Analysis",
+      "CloseDate": "2026-08-31",
+      "Description": "Full property portfolio renewal including warehouse and distribution assets. Enhanced risk management report required following warehouse fire claim."
+    },
+    {
+      "attributes": { "type": "Opportunity", "referenceId": "LiabilityCoverage" },
+      "Name": "Liability Coverage 2026",
+      "AccountId": "@AcmeCorp",
+      "Line_of_Business__c": "Liability",
+      "Amount": 850000,
+      "StageName": "Prospecting",
+      "CloseDate": "2026-11-30",
+      "Description": "Liability coverage review for public and product liability lines. New coverage sections being evaluated for expanded manufacturing operations."
+    }
+  ]
+}

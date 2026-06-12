@@ -1,0 +1,14 @@
+# Salesforce DX
+.sf/orgs/
+.sfdx/
+
+# UIBundle build artifacts and dependencies
+force-app/main/default/uiBundles/*/node_modules/
+force-app/main/default/uiBundles/*/assets/
+
+# GraphQL generated files
+force-app/main/default/uiBundles/*/src/graphql/schema.json
+force-app/main/default/uiBundles/*/src/graphql/__generated__/
+
+# macOS
+.DS_Store

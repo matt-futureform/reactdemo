@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Line_of_Business__c</fullName>
+    <label>Line of Business</label>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Property</fullName><default>false</default><label>Property</label></value>
+            <value><fullName>Liability</fullName><default>false</default><label>Liability</label></value>
+            <value><fullName>Marine Cargo</fullName><default>false</default><label>Marine Cargo</label></value>
+            <value><fullName>Casualty</fullName><default>false</default><label>Casualty</label></value>
+            <value><fullName>Financial Lines</fullName><default>false</default><label>Financial Lines</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

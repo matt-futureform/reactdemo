@@ -1,0 +1,54 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Task", "referenceId": "GroupStrategyReview" },
+      "Subject": "Group Strategy Review",
+      "WhatId": "@GlobalIndustries",
+      "WhoId": "@MichaelJones",
+      "ActivityDate": "2026-05-15",
+      "Status": "Completed",
+      "TaskSubtype": "Call",
+      "Description": "Annual group strategy review with Michael Jones and senior leadership. Confirmed appetite for expanded capacity across Financial Lines. Q3 renewal programme prioritised. Target GWP uplift of 15% discussed."
+    },
+    {
+      "attributes": { "type": "Task", "referenceId": "CasualtyProgrammeReview" },
+      "Subject": "Casualty Programme Renewal",
+      "WhatId": "@GlobalIndustries",
+      "WhoId": "@AnupGupta",
+      "ActivityDate": "2026-04-22",
+      "Status": "Completed",
+      "TaskSubtype": "Call",
+      "Description": "Casualty renewal planning meeting with Anup Gupta. Three markets identified for competitive tender. Risk management improvements from last year noted by underwriters."
+    },
+    {
+      "attributes": { "type": "Task", "referenceId": "Q2RenewalReview" },
+      "Subject": "Q2 Renewal Review",
+      "WhatId": "@AcmeCorp",
+      "WhoId": "@AmyTaylor",
+      "ActivityDate": "2026-05-28",
+      "Status": "Completed",
+      "TaskSubtype": "Call",
+      "Description": "Q2 portfolio review with Amy Taylor. Discussed impact of warehouse fire on property renewal terms. Additional risk engineering report commissioned ahead of renewal."
+    },
+    {
+      "attributes": { "type": "Task", "referenceId": "PortfolioStrategyQBR" },
+      "Subject": "Portfolio Strategy QBR",
+      "WhatId": "@AcmeCorp",
+      "WhoId": "@JenniferWu",
+      "ActivityDate": "2026-04-10",
+      "Status": "Completed",
+      "TaskSubtype": "Call",
+      "Description": "Quarterly business review with Jennifer Wu. Reviewed YTD performance against targets. Agreed to explore additional Liability sub-limits for new manufacturing site."
+    },
+    {
+      "attributes": { "type": "Task", "referenceId": "MarineCargoMeeting" },
+      "Subject": "Marine Cargo Underwriter Meeting",
+      "WhatId": "@AcmeCorp",
+      "WhoId": "@AmyTaylor",
+      "ActivityDate": "2026-03-18",
+      "Status": "Completed",
+      "TaskSubtype": "Call",
+      "Description": "Introductory meeting with Marine Cargo underwriter to explore new coverage for international shipments. Terms to be presented at next renewal."
+    }
+  ]
+}

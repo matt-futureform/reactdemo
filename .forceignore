@@ -1,0 +1,26 @@
+# List files or directories below to ignore them when running force:source:push, force:source:pull, and force:source:status
+# More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
+#
+
+package.xml
+
+# LWC configuration files
+**/jsconfig.json
+**/.eslintrc.json
+
+# LWC Jest
+**/__tests__/**
+
+node_modules/
+
+# uiBundle: src/ is build-time only; vite builds index.html + assets/ to bundle root for sf deploy
+**/uiBundles/*/src/**
+**/uiBundles/*/dist/**
+**/uiBundles/*/package.json
+**/uiBundles/*/package-lock.json
+**/uiBundles/*/vite.config.js
+**/uiBundles/*/ui-bundle.json
+**/uiBundles/*/codegen.ts
+**/uiBundles/*/scripts/**
+**/uiBundles/*/node_modules/**
+**/uiBundles/*/README.md

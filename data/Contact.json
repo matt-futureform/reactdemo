@@ -1,0 +1,64 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Contact", "referenceId": "MichaelJones" },
+      "FirstName": "Michael",
+      "LastName": "Jones",
+      "AccountId": "@GlobalIndustries",
+      "Title": "Senior Broker",
+      "Email": "m.jones@globalindustries.com",
+      "Phone": "+44 20 7946 0100",
+      "Active__c": true
+    },
+    {
+      "attributes": { "type": "Contact", "referenceId": "AnupGupta" },
+      "FirstName": "Anup",
+      "LastName": "Gupta",
+      "AccountId": "@GlobalIndustries",
+      "Title": "Associate Broker",
+      "Email": "a.gupta@globalindustries.com",
+      "Phone": "+44 20 7946 0101",
+      "Active__c": true
+    },
+    {
+      "attributes": { "type": "Contact", "referenceId": "JonathanBradley" },
+      "FirstName": "Jonathan",
+      "LastName": "Bradley",
+      "AccountId": "@GlobalIndustries",
+      "Title": "Broker",
+      "Email": "j.bradley@globalindustries.com",
+      "Phone": "+44 20 7946 0102",
+      "Active__c": false
+    },
+    {
+      "attributes": { "type": "Contact", "referenceId": "AmyTaylor" },
+      "FirstName": "Amy",
+      "LastName": "Taylor",
+      "AccountId": "@AcmeCorp",
+      "Title": "Senior Broker",
+      "Email": "a.taylor@acmecorp.com",
+      "Phone": "+44 20 7946 0200",
+      "Active__c": true
+    },
+    {
+      "attributes": { "type": "Contact", "referenceId": "JenniferWu" },
+      "FirstName": "Jennifer",
+      "LastName": "Wu",
+      "AccountId": "@AcmeCorp",
+      "Title": "Associate Broker",
+      "Email": "j.wu@acmecorp.com",
+      "Phone": "+44 20 7946 0201",
+      "Active__c": true
+    },
+    {
+      "attributes": { "type": "Contact", "referenceId": "CarolineKingsley" },
+      "FirstName": "Caroline",
+      "LastName": "Kingsley",
+      "AccountId": "@AcmeCorp",
+      "Title": "Account Executive",
+      "Email": "c.kingsley@acmecorp.com",
+      "Phone": "+44 20 7946 0202",
+      "Active__c": false
+    }
+  ]
+}

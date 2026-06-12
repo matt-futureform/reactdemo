@@ -1,0 +1,32 @@
+[
+  {
+    "sobject": "Account",
+    "saveRefs": true,
+    "resolveRefs": false,
+    "files": ["data/Account.json"]
+  },
+  {
+    "sobject": "Contact",
+    "saveRefs": true,
+    "resolveRefs": true,
+    "files": ["data/Contact.json"]
+  },
+  {
+    "sobject": "Opportunity",
+    "saveRefs": false,
+    "resolveRefs": true,
+    "files": ["data/Opportunity.json"]
+  },
+  {
+    "sobject": "Case",
+    "saveRefs": false,
+    "resolveRefs": true,
+    "files": ["data/Case.json"]
+  },
+  {
+    "sobject": "Task",
+    "saveRefs": false,
+    "resolveRefs": true,
+    "files": ["data/Task.json"]
+  }
+]

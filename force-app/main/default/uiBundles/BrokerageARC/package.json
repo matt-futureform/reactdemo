@@ -1,0 +1,29 @@
+{
+  "name": "brokerage-arc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "rm -rf assets index.html",
+    "build": "vite build",
+    "preview": "vite preview",
+    "graphql:schema": "node scripts/fetchSchema.js",
+    "graphql:codegen": "graphql-codegen --config codegen.ts"
+  },
+  "dependencies": {
+    "@salesforce/sdk-data": "*",
+    "@salesforce/vite-plugin-ui-bundle": "^10.6.0",
+    "d3": "^7.9.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.0",
+    "@graphql-codegen/typescript-operations": "^4.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "graphql": "^16.0.0",
+    "vite": "^7.0.0"
+  }
+}
