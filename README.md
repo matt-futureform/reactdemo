@@ -1,18 +1,110 @@
-# Salesforce DX Project: Next Steps
+# BrokerageARC
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+A relationship visualiser for Salesforce, replacing the standard FSC Actionable Relationship Centre (ARC). Built with Salesforce Multi-Framework (React 19), D3 force-directed graph, and the `@salesforce/sdk-data` GraphQL client.
 
-## How Do You Plan to Deploy Your Changes?
+Displays a Brokerage (Account) as the centre of an interactive graph with all related objects — Brokers (Contacts), Submissions (Opportunities), Claims (Cases), and Meetings (Tasks) — plus a rich detail panel per node.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+---
 
-## Configure Your Salesforce DX Project
+## Quick Start
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+Requires: Salesforce CLI (`sf`), Node.js 20+, a Dev Hub org authenticated as alias `yahoo`.
 
-## Read All About It
+```bash
+# Create a new scratch org, deploy everything, and import sample data
+./scripts/new-scratch-org.sh my-alias
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+# Start the dev server (from the bundle directory)
+cd force-app/main/default/uiBundles/BrokerageARC
+sf ui-bundle dev --target-org my-alias --port 4545
+```
+
+Then open one of the sample brokerage URLs printed by the setup script.
+
+---
+
+## Object Model
+
+This project uses renamed FSC standard objects:
+
+| Salesforce Object | Label in UI |
+|---|---|
+| Account | Brokerage |
+| Contact | Broker |
+| Opportunity | Submission |
+| Case | Claim |
+| Task | Meeting |
+
+Custom fields: `Account.Tier__c`, `Account.GWP__c`, `Account.GWP_Target__c`, `Account.Relationship_Score__c`, `Account.AI_Summary__c`, `Contact.Active__c`, `Opportunity.Line_of_Business__c`, `Opportunity.Days_Open__c`, `Case.Reserve__c`
+
+---
+
+## Project Structure
+
+```
+├── config/
+│   └── project-scratch-def.json       # Scratch org definition
+├── data/
+│   ├── plan.json                       # sf data import tree plan
+│   ├── Account.json                    # 2 brokerages (Global Industries + Acme Corp)
+│   ├── Contact.json                    # 6 brokers
+│   ├── Opportunity.json                # 4 submissions
+│   ├── Case.json                       # 3 claims
+│   └── Task.json                       # 5 meetings
+├── force-app/main/default/
+│   ├── applications/                   # CustomApplication metadata (App Launcher)
+│   ├── objects/                        # Custom field metadata
+│   ├── permissionsets/                 # BrokerageARC permission set (FLS on all 9 fields)
+│   └── uiBundles/BrokerageARC/
+│       ├── src/
+│       │   ├── main.jsx                # Entry point — reads recordId from SFDC_ENV or ?param
+│       │   ├── brokerage-arc-graph.jsx # Main app component (graph + detail panels)
+│       │   ├── graphql/
+│       │   │   ├── client.js           # executeGraphQL() wrapper
+│       │   │   └── queries.js          # All GraphQL queries
+│       │   ├── hooks/
+│       │   │   └── useBrokerageGraph.js
+│       │   └── utils/
+│       │       └── graphTransform.js   # GraphQL response → D3 nodes/links
+│       └── vite.config.js
+└── scripts/
+    └── new-scratch-org.sh              # Full scratch org setup script
+```
+
+---
+
+## After Cloning
+
+1. Authenticate your Dev Hub: `sf org login web --alias yahoo --set-default-dev-hub`
+2. Run the setup script: `./scripts/new-scratch-org.sh <alias>`
+3. Note the Account IDs printed at the end — use them as `?recordId=` in the dev server URL
+
+### After any GraphQL query change
+
+```bash
+# Pull current schema from org
+npm run graphql:schema --target-org <alias>
+
+# Regenerate TypeScript types
+npm run graphql:codegen
+```
+
+---
+
+## Deploying Changes
+
+```bash
+# Deploy metadata only (objects, permsets)
+sf project deploy start \
+  --source-dir force-app/main/default/objects \
+  --source-dir force-app/main/default/permissionsets \
+  --target-org <alias>
+
+# Deploy UIBundle (build first)
+cd force-app/main/default/uiBundles/BrokerageARC && npm run build
+cd ../../../.. && sf project deploy start \
+  --source-dir force-app/main/default/uiBundles \
+  --target-org <alias>
+```
+
+> **Note:** `CustomApplication` deployment (App Launcher visibility) is blocked by a platform bug until Summer '26 R2 (~13 June 2026). The metadata is ready at `force-app/main/default/applications/BrokerageARC.app-meta.xml` — deploy it once the fix lands. Until then, the app runs via direct dev server URL only.
