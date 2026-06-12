@@ -1,0 +1,13 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Account", "referenceId": "GlobalIndustries" },
+      "Name": "Global Industries",
+      "Tier__c": "Strategic",
+      "GWP__c": 8500000,
+      "GWP_Target__c": 10000000,
+      "Relationship_Score__c": 85,
+      "AI_Summary__c": "Global Industries is a strategic-tier brokerage managing a diversified portfolio of £8.5m GWP against a £10m target. Strong relationship score of 85 reflects consistent senior engagement across Financial Lines and Casualty portfolios. Two active submissions in late-stage renewal, with the Group Strategy review confirming appetite for expanded capacity in Q3."
+    }
+  ]
+}

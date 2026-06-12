@@ -7,9 +7,6 @@
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
     },
-    "UIBundleSettings": {
-      "webAppOptIn": true
-    },
     "mobileSettings": {
       "enableS1EncryptedStoragePref2": false
     }

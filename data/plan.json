@@ -3,30 +3,36 @@
     "sobject": "Account",
     "saveRefs": true,
     "resolveRefs": false,
-    "files": ["data/Account.json"]
+    "files": ["Account-parent.json"]
+  },
+  {
+    "sobject": "Account",
+    "saveRefs": true,
+    "resolveRefs": true,
+    "files": ["Account-child.json"]
   },
   {
     "sobject": "Contact",
     "saveRefs": true,
     "resolveRefs": true,
-    "files": ["data/Contact.json"]
+    "files": ["Contact.json"]
   },
   {
     "sobject": "Opportunity",
     "saveRefs": false,
     "resolveRefs": true,
-    "files": ["data/Opportunity.json"]
+    "files": ["Opportunity.json"]
   },
   {
     "sobject": "Case",
     "saveRefs": false,
     "resolveRefs": true,
-    "files": ["data/Case.json"]
+    "files": ["Case.json"]
   },
   {
     "sobject": "Task",
     "saveRefs": false,
     "resolveRefs": true,
-    "files": ["data/Task.json"]
+    "files": ["Task.json"]
   }
 ]

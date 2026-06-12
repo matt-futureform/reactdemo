@@ -1,0 +1,14 @@
+{
+  "records": [
+    {
+      "attributes": { "type": "Account", "referenceId": "AcmeCorp" },
+      "Name": "Acme Corp",
+      "ParentId": "@GlobalIndustries",
+      "Tier__c": "Preferred",
+      "GWP__c": 2400000,
+      "GWP_Target__c": 3000000,
+      "Relationship_Score__c": 72,
+      "AI_Summary__c": "Acme Corp is a preferred-tier subsidiary of Global Industries managing £2.4m GWP against a £3m target. Relationship score of 72 indicates growth potential. Two open claims — Warehouse Fire and Third Party Injury — require active management. Property and Liability renewals in early stage with strong broker engagement from Amy Taylor."
+    }
+  ]
+}
