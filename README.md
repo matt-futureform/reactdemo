@@ -14,7 +14,7 @@ Clone, then run the setup script to create a scratch org with everything deploye
     cd reactdemo
     ./scripts/setup.sh [org-alias]
 
-The script: creates a scratch org → builds the React bundle → deploys all metadata → assigns the permission set → imports test data → prints Account IDs → opens the org.
+The script: creates a scratch org → builds the React bundle → deploys all metadata → assigns the permission set → imports test data → opens the org. Once it opens, go to the App Launcher and search for **BrokerageARC**.
 
 **Prerequisites:** Salesforce CLI (`sf`), Node.js ≥ 22, an authenticated Dev Hub.
 
@@ -56,15 +56,17 @@ Custom fields: `Account.Tier__c`, `Account.GWP__c`, `Account.GWP_Target__c`, `Ac
 │   └── uiBundles/BrokerageARC/
 │       ├── src/
 │       │   ├── main.jsx                # Entry point — reads recordId from SFDC_ENV or ?param
-│       │   ├── brokerage-arc-graph.jsx # Main app component (graph + detail panels)
+│       │   ├── brokerage-arc-graph.jsx # Main app: graph, detail panels, search overlay
+│       │   ├── brokerage-arc-tree.jsx  # Tree view
 │       │   ├── graphql/
 │       │   │   ├── client.js           # executeGraphQL() wrapper
 │       │   │   └── queries.js          # All GraphQL queries
 │       │   ├── hooks/
-│       │   │   └── useBrokerageGraph.js
+│       │   │   ├── useBrokerageGraph.js
+│       │   │   └── useBrokerageSearch.js # Debounced brokerage name search
 │       │   └── utils/
 │       │       └── graphTransform.js   # GraphQL response → D3 nodes/links
-│       └── vite.config.js
+│       └── vite.config.ts
 └── scripts/
     └── setup.sh                        # Full scratch org setup — one command
 ```
@@ -75,14 +77,16 @@ Custom fields: `Account.Tier__c`, `Account.GWP__c`, `Account.GWP_Target__c`, `Ac
 
 1. Authenticate your Dev Hub: `sf org login web --alias <devhub> --set-default-dev-hub`
 2. Run the setup script: `./scripts/setup.sh <alias>`
-3. The script prints Account IDs at the end — use them as `?recordId=` in the dev server URL
+3. The org opens automatically — go to the App Launcher and select **BrokerageARC**
 
 ### Dev server
 
 ```bash
 cd force-app/main/default/uiBundles/BrokerageARC
-sf ui-bundle dev --target-org <alias> --port 4545
-# Then open http://localhost:4545/?recordId=<AccountId>
+npm run dev
+# Open http://localhost:5173
+# Use the search overlay to find and select a brokerage.
+# Or jump straight to a record: http://localhost:5173/?recordId=<AccountId>
 ```
 
 ### After any GraphQL query change
