@@ -32,5 +32,17 @@ sf data import tree \
   --target-org "$ALIAS"
 
 echo ""
-echo "✓ Setup complete. Opening org..."
+echo "▶ Account IDs (use as ?recordId= in the dev server URL):"
+sf data query \
+  --query "SELECT Id, Name, Tier__c FROM Account ORDER BY CreatedDate ASC" \
+  --target-org "$ALIAS"
+
+echo ""
+echo "✓ Setup complete."
+echo ""
+echo "To run the dev server:"
+echo "  cd $BUNDLE && sf ui-bundle dev --target-org $ALIAS --port 4545"
+echo ""
+echo "Then open:  http://localhost:4545/?recordId=<AccountId>"
+echo ""
 sf org open --target-org "$ALIAS"

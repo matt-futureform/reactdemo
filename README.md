@@ -14,7 +14,7 @@ Clone, then run the setup script to create a scratch org with everything deploye
     cd reactdemo
     ./scripts/setup.sh [org-alias]
 
-The script: creates a scratch org → builds the React bundle → deploys all metadata → assigns the permission set → imports test data → opens the org.
+The script: creates a scratch org → builds the React bundle → deploys all metadata → assigns the permission set → imports test data → prints Account IDs → opens the org.
 
 **Prerequisites:** Salesforce CLI (`sf`), Node.js ≥ 22, an authenticated Dev Hub.
 
@@ -43,15 +43,16 @@ Custom fields: `Account.Tier__c`, `Account.GWP__c`, `Account.GWP_Target__c`, `Ac
 │   └── project-scratch-def.json       # Scratch org definition
 ├── data/
 │   ├── plan.json                       # sf data import tree plan
-│   ├── Account.json                    # 2 brokerages (Global Industries + Acme Corp)
+│   ├── Account-parents.json            # Global Industries (top-level brokerage)
+│   ├── Account-children.json           # Acme Corp (child of Global Industries)
 │   ├── Contact.json                    # 6 brokers
 │   ├── Opportunity.json                # 4 submissions
 │   ├── Case.json                       # 3 claims
 │   └── Task.json                       # 5 meetings
 ├── force-app/main/default/
-│   ├── applications/                   # CustomApplication metadata (App Launcher)
+│   ├── applications/                   # CustomApplication — wires bundle to App Launcher
 │   ├── objects/                        # Custom field metadata
-│   ├── permissionsets/                 # BrokerageARC permission set (FLS on all 9 fields)
+│   ├── permissionsets/                 # BrokerageARC permission set (FLS + app visibility)
 │   └── uiBundles/BrokerageARC/
 │       ├── src/
 │       │   ├── main.jsx                # Entry point — reads recordId from SFDC_ENV or ?param
@@ -65,24 +66,29 @@ Custom fields: `Account.Tier__c`, `Account.GWP__c`, `Account.GWP_Target__c`, `Ac
 │       │       └── graphTransform.js   # GraphQL response → D3 nodes/links
 │       └── vite.config.js
 └── scripts/
-    └── new-scratch-org.sh              # Full scratch org setup script
+    └── setup.sh                        # Full scratch org setup — one command
 ```
 
 ---
 
 ## After Cloning
 
-1. Authenticate your Dev Hub: `sf org login web --alias yahoo --set-default-dev-hub`
-2. Run the setup script: `./scripts/new-scratch-org.sh <alias>`
-3. Note the Account IDs printed at the end — use them as `?recordId=` in the dev server URL
+1. Authenticate your Dev Hub: `sf org login web --alias <devhub> --set-default-dev-hub`
+2. Run the setup script: `./scripts/setup.sh <alias>`
+3. The script prints Account IDs at the end — use them as `?recordId=` in the dev server URL
+
+### Dev server
+
+```bash
+cd force-app/main/default/uiBundles/BrokerageARC
+sf ui-bundle dev --target-org <alias> --port 4545
+# Then open http://localhost:4545/?recordId=<AccountId>
+```
 
 ### After any GraphQL query change
 
 ```bash
-# Pull current schema from org
 npm run graphql:schema --target-org <alias>
-
-# Regenerate TypeScript types
 npm run graphql:codegen
 ```
 
@@ -91,17 +97,14 @@ npm run graphql:codegen
 ## Deploying Changes
 
 ```bash
-# Deploy metadata only (objects, permsets)
+# Deploy all metadata (objects, permsets, uiBundle, application)
 sf project deploy start \
-  --source-dir force-app/main/default/objects \
-  --source-dir force-app/main/default/permissionsets \
+  --source-dir force-app/main/default \
   --target-org <alias>
 
-# Deploy UIBundle (build first)
+# UIBundle only (build first)
 cd force-app/main/default/uiBundles/BrokerageARC && npm run build
 cd ../../../.. && sf project deploy start \
   --source-dir force-app/main/default/uiBundles \
   --target-org <alias>
 ```
-
-> **Note:** `CustomApplication` deployment (App Launcher visibility) is blocked by a platform bug until Summer '26 R2 (~13 June 2026). The metadata is ready at `force-app/main/default/applications/BrokerageARC.app-meta.xml` — deploy it once the fix lands. Until then, the app runs via direct dev server URL only.

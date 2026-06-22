@@ -9,7 +9,7 @@ way — following it avoids the pitfalls that cost hours.
 ## 1. Scratch Org Setup
 
 ### project-scratch-def.json
-Multi-Framework is **not** a `features` value. Enable it via `settings`:
+Multi-Framework is **not** a `features` value — no special setting is required:
 
 ```json
 {
@@ -18,13 +18,13 @@ Multi-Framework is **not** a `features` value. Enable it via `settings`:
   "features": ["EnableSetPasswordInApi"],
   "settings": {
     "lightningExperienceSettings": { "enableS1DesktopEnabled": true },
-    "UIBundleSettings": { "webAppOptIn": true },
     "mobileSettings": { "enableS1EncryptedStoragePref2": false }
   }
 }
 ```
 
 `MultiFrameworkReact` is **not** a valid feature flag — adding it causes org creation to fail.
+`UIBundleSettings.webAppOptIn` is not required and may error on some orgs — omit it.
 
 ### sfdx-project.json
 Must be API version **67.0** or higher. The `CustomApplication.uiBundle` property was
@@ -341,7 +341,6 @@ sf project deploy start --source-dir force-app/main/default/applications --targe
 | `Property 'Formula' is not a valid value for the enum 'FieldType'` | Wrong field type for formula | Use the return type (`Number`, `Currency`, etc.) + keep `<formula>` element |
 | Opportunity custom fields invisible despite System Admin | FLS not granted | Create and assign a Permission Set with explicit field permissions |
 | `sf ui-bundle dev` opens wrong bundle | Multiple ui-bundle.json found | Add `"name"` to ui-bundle.json and run from bundle directory |
-| `(-750749931)` on CustomApplication deploy | Platform bug — June 2026 | Wait for Summer '26 R2 (~June 13); use `sf ui-bundle dev` in the meantime |
 
 ---
 

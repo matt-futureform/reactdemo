@@ -225,13 +225,11 @@ When asked to perform these tasks, follow the approach described:
   ```bash
   cd force-app/main/default/uiBundles/BrokerageARC && npm run build
   cd <project-root>
-  sf project deploy start --source-dir force-app/main/default/objects \
-    --source-dir force-app/main/default/permissionsets \
-    --source-dir force-app/main/default/uiBundles \
+  sf project deploy start \
+    --source-dir force-app/main/default \
     --target-org <alias>
   ```
-  Note: CustomApplication deploy is blocked by platform bug until Summer '26 R2.
-  UIBundle builds directly to bundle root (not dist/) so no copy step is needed.
+  UIBundle builds to `dist/` — build must run before deploy.
 
 ---
 
