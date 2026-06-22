@@ -45,39 +45,40 @@ Custom fields use standard __c suffix. Key custom fields:
 ```
 force-app/main/default/uiBundles/BrokerageARC/
 ├── src/
-│   ├── main.jsx                  # Entry point, router setup
-│   ├── App.jsx                   # Root component, view toggle (graph/card)
-│   ├── components/
-│   │   ├── RelationshipGraph.jsx # D3 force-directed graph
-│   │   ├── DetailPanel.jsx       # Right-hand detail pane, routes by node type
-│   │   ├── detail/
-│   │   │   ├── BrokerageDetail.jsx
-│   │   │   ├── BrokerDetail.jsx
-│   │   │   ├── SubmissionDetail.jsx
-│   │   │   ├── ClaimDetail.jsx
-│   │   │   └── MeetingDetail.jsx
-│   │   └── ui/
-│   │       ├── Badge.jsx
-│   │       ├── Section.jsx
-│   │       └── Legend.jsx
+│   ├── main.jsx                    # Entry point — reads SFDC_ENV.recordId or ?recordId= param
+│   ├── brokerage-arc-graph.jsx     # Main app: D3 graph, detail panels, search overlay
+│   ├── brokerage-arc-tree.jsx      # Tree view
 │   ├── graphql/
-│   │   ├── client.js             # createDataSDK() singleton
-│   │   ├── queries.js            # All GraphQL query strings (/* GraphQL */ tagged)
-│   │   ├── schema.json           # Introspected org schema (git-ignored, generated)
+│   │   ├── client.js               # executeGraphQL() wrapper around createDataSDK()
+│   │   ├── queries.js              # All GraphQL query strings (/* GraphQL */ tagged)
 │   │   └── __generated__/
-│   │       └── queries.ts        # Codegen output — never edit manually
+│   │       └── queries.ts          # Codegen output — never edit manually
 │   ├── hooks/
-│   │   ├── useBrokerageGraph.js  # Main data hook — fetches + transforms
-│   │   └── useNodeDetail.js      # Per-node detail fetch (lazy, on selection)
+│   │   ├── useBrokerageGraph.js    # Main data hook — fetches + transforms for D3
+│   │   ├── useBrokerageSearch.js   # Debounced brokerage name search hook
+│   │   └── useNodeDetail.js        # Per-node detail fetch (lazy, on selection)
 │   └── utils/
-│       ├── graphTransform.js     # Maps GraphQL response → D3 node/link shape
-│       └── format.js             # fmt(), statusColor(), etc.
+│       └── graphTransform.js       # Maps GraphQL response → D3 node/link shape
 ├── scripts/
-│   └── fetchSchema.js            # Introspects org schema via sf CLI auth
-├── codegen.ts                    # graphql-codegen config
-├── CLAUDE.md                     # This file
+│   └── fetchSchema.js              # Introspects org schema via sf CLI auth
+├── dist/                           # Built output — git-ignored, must exist before deploy
+├── codegen.yml                     # graphql-codegen config
+├── CLAUDE.md                       # This file
 └── package.json
 ```
+
+---
+
+## Local Development
+
+```bash
+cd force-app/main/default/uiBundles/BrokerageARC
+npm run dev
+```
+
+Vite starts at **http://localhost:5173**. No `recordId` needed — the brokerage search overlay appears automatically and queries the connected org. To jump straight to a known record, append `?recordId=<18-char-id>`.
+
+`createDataSDK()` uses the sf CLI session for auth — make sure `sf org login web --alias reactdemoOrg` has been run and the org is active.
 
 ---
 
@@ -85,7 +86,7 @@ force-app/main/default/uiBundles/BrokerageARC/
 1. **Always use createDataSDK()** from @salesforce/sdk-data — never fetch() or REST directly
 2. **GraphQL only** — no @wire, no Lightning Data Service, no Apex unless specified
 3. **Auth is automatic** — createDataSDK() handles tokens; never pass Authorization headers
-4. **recordId** comes from the Multi-Framework router (useParams or equivalent) — never hardcoded
+4. **recordId** is read from `SFDC_ENV.recordId` (platform) or `?recordId=` URL param (local dev)
 5. All queries live in `src/graphql/queries.js` — never inline query strings in components
 6. All data fetching lives in hooks under `src/hooks/` — never fetch inside components directly
 
@@ -118,7 +119,7 @@ import type { BrokerageGraphQuery } from '../graphql/__generated__/queries';
 6. Replace `GRAPH_DATA` const in `App.jsx` with hook output
 
 ### Demo org alias
-Target org alias: `<add your sandbox alias here>`
+Target org alias: `reactdemoOrg`
 Object API names are renamed FSC objects — see Object Model table above
 
 ---
@@ -205,8 +206,8 @@ When asked to perform these tasks, follow the approach described:
 **"Wire the graph to live data"**
 → Follow the 6-step process in GraphQL Setup & Codegen above:
   confirm schema is current, run codegen, import generated types in useBrokerageGraph.js,
-  call createDataSDK() with BROKERAGE_GRAPH_QUERY, pass through graphTransform(),
-  replace GRAPH_DATA const in App.jsx.
+  call createDataSDK() with BROKERAGE_GRAPH_QUERY, pass through graphTransform().
+  The hook is already wired in brokerage-arc-graph.jsx — no static GRAPH_DATA const exists.
 
 **"Add loading states"**
 → Add skeleton nodes (5 placeholder circles) to RelationshipGraph during loading.
