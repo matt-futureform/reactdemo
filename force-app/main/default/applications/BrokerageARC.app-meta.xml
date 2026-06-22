@@ -10,7 +10,7 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Brokerage ARC</label>
-    <navType>Console</navType>
+    <navType>Standard</navType>
     <uiBundle>c__BrokerageARC</uiBundle>
     <uiType>Lightning</uiType>
 </CustomApplication>

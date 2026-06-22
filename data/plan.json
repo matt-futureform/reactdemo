@@ -1,38 +1,8 @@
 [
-  {
-    "sobject": "Account",
-    "saveRefs": true,
-    "resolveRefs": false,
-    "files": ["Account-parent.json"]
-  },
-  {
-    "sobject": "Account",
-    "saveRefs": true,
-    "resolveRefs": true,
-    "files": ["Account-child.json"]
-  },
-  {
-    "sobject": "Contact",
-    "saveRefs": true,
-    "resolveRefs": true,
-    "files": ["Contact.json"]
-  },
-  {
-    "sobject": "Opportunity",
-    "saveRefs": false,
-    "resolveRefs": true,
-    "files": ["Opportunity.json"]
-  },
-  {
-    "sobject": "Case",
-    "saveRefs": false,
-    "resolveRefs": true,
-    "files": ["Case.json"]
-  },
-  {
-    "sobject": "Task",
-    "saveRefs": false,
-    "resolveRefs": true,
-    "files": ["Task.json"]
-  }
+  { "sobject": "Account", "saveRefs": true, "resolveRefs": false, "files": ["Account-parents.json"] },
+  { "sobject": "Account", "saveRefs": true, "resolveRefs": true, "files": ["Account-children.json"] },
+  { "sobject": "Contact", "saveRefs": true, "resolveRefs": true, "files": ["Contact.json"] },
+  { "sobject": "Opportunity", "saveRefs": false, "resolveRefs": true, "files": ["Opportunity.json"] },
+  { "sobject": "Case", "saveRefs": false, "resolveRefs": true, "files": ["Case.json"] },
+  { "sobject": "Task", "saveRefs": false, "resolveRefs": true, "files": ["Task.json"] }
 ]

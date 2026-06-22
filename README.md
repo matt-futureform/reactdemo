@@ -8,18 +8,15 @@ Displays a Brokerage (Account) as the centre of an interactive graph with all re
 
 ## Quick Start
 
-Requires: Salesforce CLI (`sf`), Node.js 20+, a Dev Hub org authenticated as alias `yahoo`.
+Clone, then run the setup script to create a scratch org with everything deployed:
 
-```bash
-# Create a new scratch org, deploy everything, and import sample data
-./scripts/new-scratch-org.sh my-alias
+    git clone https://github.com/matt-futureform/reactdemo
+    cd reactdemo
+    ./scripts/setup.sh [org-alias]
 
-# Start the dev server (from the bundle directory)
-cd force-app/main/default/uiBundles/BrokerageARC
-sf ui-bundle dev --target-org my-alias --port 4545
-```
+The script: creates a scratch org → builds the React bundle → deploys all metadata → assigns the permission set → imports test data → opens the org.
 
-Then open one of the sample brokerage URLs printed by the setup script.
+**Prerequisites:** Salesforce CLI (`sf`), Node.js ≥ 22, an authenticated Dev Hub.
 
 ---
 
