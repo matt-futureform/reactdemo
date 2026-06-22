@@ -10,6 +10,9 @@ sf org create scratch \
   --alias "$ALIAS" \
   --duration-days 30
 
+echo "▶ Setting default org to $ALIAS..."
+sf config set target-org "$ALIAS"
+
 echo "▶ Installing bundle dependencies..."
 npm install --prefix "$BUNDLE"
 
