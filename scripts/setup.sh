@@ -19,7 +19,8 @@ npm run build --prefix "$BUNDLE"
 echo "▶ Deploying metadata..."
 sf project deploy start \
   --source-dir force-app/main/default \
-  --target-org "$ALIAS"
+  --target-org "$ALIAS" \
+  --ignore-conflicts
 
 echo "▶ Assigning permission set..."
 sf org assign permset \

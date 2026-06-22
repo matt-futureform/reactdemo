@@ -49,7 +49,6 @@
     </fieldPermissions>
     <applicationVisibilities>
         <application>BrokerageARC</application>
-        <default>true</default>
         <visible>true</visible>
     </applicationVisibilities>
 </PermissionSet>
