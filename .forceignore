@@ -13,9 +13,9 @@ package.xml
 
 node_modules/
 
-# uiBundle: src/ is build-time only; vite builds index.html + assets/ to bundle root for sf deploy
+# uiBundle: src/ and build/ are build-time only; dist/ is the deployable output (vite outDir)
 **/uiBundles/*/src/**
-**/uiBundles/*/dist/**
+**/uiBundles/*/build/**
 **/uiBundles/*/package.json
 **/uiBundles/*/package-lock.json
 **/uiBundles/*/vite.config.js
