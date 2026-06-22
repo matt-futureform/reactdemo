@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import * as d3 from "d3";
 import { useBrokerageGraph } from "./hooks/useBrokerageGraph";
+import { useBrokerageSearch } from "./hooks/useBrokerageSearch";
 import { BrokerageArcTree } from "./brokerage-arc-tree";
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -499,11 +500,114 @@ function RelationshipGraph({ graphData, onSelectNode, selectedId }) {
   );
 }
 
+// ─── Brokerage Search Overlay ─────────────────────────────────────────────────
+
+function BrokerageSearchOverlay({ onSelect, canClose, onClose }) {
+  const { term, setTerm, results, loading } = useBrokerageSearch();
+  const inputRef = useRef(null);
+
+  useEffect(() => { inputRef.current?.focus(); }, []);
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 1000,
+      background: canClose ? "rgba(8,13,24,0.85)" : "#080d18",
+      backdropFilter: canClose ? "blur(4px)" : "none",
+      display: "flex", alignItems: "center", justifyContent: "center",
+    }}>
+      <div style={{
+        width: 480, maxWidth: "calc(100vw - 40px)",
+        background: "#0b1120", border: "1px solid #1e293b",
+        borderRadius: 16, overflow: "hidden",
+        boxShadow: "0 24px 64px rgba(0,0,0,0.6)",
+      }}>
+        <div style={{ padding: "20px 20px 0", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#f1f5f9" }}>Select Brokerage</div>
+            <div style={{ fontSize: 11, color: "#475569", marginTop: 2 }}>Search by name to open the relationship graph</div>
+          </div>
+          {canClose && (
+            <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "#475569", fontSize: 18, padding: 4, lineHeight: 1, flexShrink: 0 }}>✕</button>
+          )}
+        </div>
+
+        <div style={{ padding: "16px 20px" }}>
+          <div style={{ position: "relative" }}>
+            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#475569", fontSize: 14, pointerEvents: "none" }}>🔍</span>
+            <input
+              ref={inputRef}
+              value={term}
+              onChange={e => setTerm(e.target.value)}
+              placeholder="Search brokerages…"
+              style={{
+                width: "100%", boxSizing: "border-box",
+                padding: "10px 36px 10px 36px",
+                background: "#0f172a", border: "1px solid #1e293b",
+                borderRadius: 8, color: "#f1f5f9", fontSize: 13,
+                outline: "none", fontFamily: "inherit",
+              }}
+            />
+            {loading && (
+              <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: "#475569", fontSize: 11 }}>…</span>
+            )}
+          </div>
+        </div>
+
+        <div style={{ maxHeight: 320, overflowY: "auto", padding: "0 12px 12px" }}>
+          {term.trim().length < 2 && (
+            <div style={{ padding: "16px 8px", textAlign: "center", color: "#334155", fontSize: 12 }}>
+              Type at least 2 characters to search
+            </div>
+          )}
+          {term.trim().length >= 2 && !loading && results.length === 0 && (
+            <div style={{ padding: "16px 8px", textAlign: "center", color: "#334155", fontSize: 12 }}>
+              No brokerages found
+            </div>
+          )}
+          {results.map(r => (
+            <button
+              key={r.id}
+              onClick={() => onSelect(r.id)}
+              style={{
+                display: "flex", alignItems: "center", gap: 12, width: "100%",
+                background: "#0f172a", border: "1px solid #1e293b", borderRadius: 10,
+                padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left",
+              }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = "#7c3aed"}
+              onMouseLeave={e => e.currentTarget.style.borderColor = "#1e293b"}
+            >
+              <div style={{ width: 36, height: 36, borderRadius: 9, background: "linear-gradient(135deg,#1d4ed8,#7c3aed)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "#fff", flexShrink: 0 }}>
+                {r.name[0]}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "#f1f5f9" }}>{r.name}</div>
+                <div style={{ fontSize: 11, color: "#475569", marginTop: 2 }}>
+                  {[r.tier ? `${r.tier} Tier` : null, r.gwp ? `${fmt(r.gwp)} GWP` : null].filter(Boolean).join(" · ")}
+                </div>
+              </div>
+              {r.score != null && (
+                <div style={{ fontSize: 12, fontFamily: "monospace", color: "#34d399", flexShrink: 0 }}>{r.score}</div>
+              )}
+              <span style={{ color: "#334155", fontSize: 14, flexShrink: 0 }}>›</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main App ─────────────────────────────────────────────────────────────────
 
 export default function App({ recordId }) {
   const [activeRecordId, setActiveRecordId] = useState(recordId);
+  const [searchOpen, setSearchOpen] = useState(!recordId);
   const { data: graphData, loading, error, retry } = useBrokerageGraph(activeRecordId);
+
+  const handleSearchSelect = useCallback((id) => {
+    setActiveRecordId(id);
+    setSearchOpen(false);
+  }, []);
 
   const [view, setView] = useState("graph");
   const [selected, setSelected] = useState(null);
@@ -555,7 +659,11 @@ export default function App({ recordId }) {
             <div style={{ fontSize: 11, color: "#475569" }}>Brokerage{brokerage?.tier ? ` · ${brokerage.tier} Tier` : ""}</div>
           </div>
         </div>
-        <div style={{ marginLeft: "auto", display: "flex", gap: 4, background: "#0f172a", border: "1px solid #1e293b", borderRadius: 8, padding: 3 }}>
+        <button
+          onClick={() => setSearchOpen(true)}
+          style={{ marginLeft: "auto", padding: "5px 12px", borderRadius: 7, border: "1px solid #1e293b", background: "#0f172a", color: "#64748b", fontSize: 11, fontWeight: 600, cursor: "pointer", letterSpacing: "0.04em", marginRight: 6 }}
+        >⇄ Switch</button>
+        <div style={{ display: "flex", gap: 4, background: "#0f172a", border: "1px solid #1e293b", borderRadius: 8, padding: 3 }}>
           {[["graph", "🕸 Graph"], ["tree", "🌳 Tree"], ["card", "📋 Card"]].map(([v, label]) => {
             const active = v === "graph" ? (view === "graph" || view === "detail") : view === v;
             return (
@@ -667,6 +775,14 @@ export default function App({ recordId }) {
           </>
         )}
       </div>
+
+      {searchOpen && (
+        <BrokerageSearchOverlay
+          onSelect={handleSearchSelect}
+          canClose={!!activeRecordId}
+          onClose={() => setSearchOpen(false)}
+        />
+      )}
     </div>
   );
 }

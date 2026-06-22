@@ -1,3 +1,27 @@
+export const BROKERAGE_SEARCH_QUERY = /* GraphQL */ `
+  query BrokerageSearch($term: String!) {
+    uiapi {
+      query {
+        Account(
+          where: { Name: { like: $term } }
+          first: 10
+          orderBy: { Name: { order: ASC } }
+        ) {
+          edges {
+            node {
+              Id
+              Name { value }
+              Tier__c { value }
+              GWP__c { value }
+              Relationship_Score__c { value }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const BROKERAGE_GRAPH_QUERY = /* GraphQL */ `
   query BrokerageGraph($brokerageId: ID!) {
     uiapi {
